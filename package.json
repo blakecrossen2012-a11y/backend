@@ -1,9 +1,9 @@
 {
   "name": "p5-multiplayer-server",
   "version": "1.0.0",
-  "main": "jdoodle.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node jdoodle.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.19.2",
