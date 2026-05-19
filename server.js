@@ -3,6 +3,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 
 const app = express();
+
 const server = http.createServer(app);
 
 const io = new Server(server, {
@@ -11,20 +12,21 @@ const io = new Server(server, {
     }
 });
 
-app.use(express.static("public"));
-
 let players = {};
 
 io.on("connection", (socket) => {
 
+    console.log("Connected:", socket.id);
+
     players[socket.id] = {
-        x: 200,
-        y: 200
+        x: 100,
+        y: 100
     };
 
     io.emit("players", players);
 
     socket.on("move", (data) => {
+
         if (!players[socket.id]) return;
 
         players[socket.id].x = data.x;
@@ -34,7 +36,9 @@ io.on("connection", (socket) => {
     });
 
     socket.on("disconnect", () => {
+
         delete players[socket.id];
+
         io.emit("players", players);
     });
 });
@@ -42,5 +46,5 @@ io.on("connection", (socket) => {
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
-    console.log("Running on", PORT);
+    console.log("Running");
 });
